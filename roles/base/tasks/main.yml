@@ -1,0 +1,67 @@
+- name: Stop Firewalld
+  service: name=firewalld state=stopped enabled=no
+
+- name: Create web {{ web_group }} {{ web_group_id }} group_id
+  group: name={{ group_user }} gid={{ web_group_id }}
+
+- name: Create Web {{ web_user }}  {{ web_user_id }} User_id
+  user: name={{ web_user }} uid={{ web_user_id }} group={{ web_user }}
+
+- name: Configure elasticsearch repo
+  yum_repository:
+    name: elasticsearch
+    desciption: elasticsearch Repository
+    baseurl: baseurl=https://artifacts.elastic.co/packages/6.x/yum
+    gpgcheck: no
+    
+
+- name: Add Base Yum Repository
+  yum_repository:
+    name: base
+    description: Base Aliyun Repository
+    baseurl: http://mirrors.aliyun.com/centos/$releasever/os/$basearch/
+    gpgcheck: yes
+    gpgkey: http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-7
+
+- name: Add Epel Yum Repository
+  yum_repository:
+    name: epel
+    description: Epel Aliyun Repository
+    baseurl: http://mirrors.aliyun.com/epel/7/$basearch
+    gpgcheck: no
+
+- name: Add Nginx Yum Repository
+  yum_repository:
+    name: nginx
+    description: Nginx Repository
+    baseurl: http://nginx.org/packages/centos/7/$basearch/
+    gpgcheck: no
+  when: ( ansible_hostname is match('web*')) or
+        ( ansible_hostname is match ('lb*'))
+
+
+- name: Add PHP Yum Repository
+  yum_repository: 
+    name: php71w
+    description: php Repository
+    baseurl: http://us-east.repo.webtatic.com/yum/el7/x86_64/
+    gpgcheck: no
+  when: ( ansible_hostname is match('web*'))
+
+- name: Installed Packages All
+  yum:  name={{ packages }} state=present
+  vars:
+    packages:
+      - rsync
+      - nfs-utils
+      - net-tools
+      - wget
+      - tree
+      - lrzsz
+      - vim
+      - unzip
+      - httpd-tools
+      - bash-completion
+      - iftop
+      - iotop
+      - glances

@@ -1,0 +1,11 @@
+- name: Install nginx
+  yum: name=nginx state=present
+ 
+- name: Configure nginx
+  template: src=/etc/nginx/nginx.conf dest=/etc/nginx/nginx.conf
+  notify: Reload nginx
+
+- name: Start nginx
+  service: name=nginx stated=start enabled=yes
+
+
