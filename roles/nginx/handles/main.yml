@@ -1,2 +1,2 @@
-- name: Reload nginx
-  shell: nginx -s reload 
+- name: Restart nginx service
+  service: name=nginx state=present 

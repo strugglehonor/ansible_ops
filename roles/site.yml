@@ -1,0 +1,8 @@
+- hosts: all
+  roles:
+    - role: base
+
+- hosts: LB
+  roles:
+    - role: nginx
+  tags: nginx_LB

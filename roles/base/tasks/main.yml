@@ -2,17 +2,17 @@
   service: name=firewalld state=stopped enabled=no
 
 - name: Create web {{ web_group }} {{ web_group_id }} group_id
-  group: name={{ group_user }} gid={{ web_group_id }}
+  group: name={{ web_group }} gid={{ web_group_id|int }}
 
 - name: Create Web {{ web_user }}  {{ web_user_id }} User_id
   user: name={{ web_user }} uid={{ web_user_id }} group={{ web_user }}
 
-- name: Configure elasticsearch repo
-  yum_repository:
-    name: elasticsearch
-    desciption: elasticsearch Repository
-    baseurl: baseurl=https://artifacts.elastic.co/packages/6.x/yum
-    gpgcheck: no
+#- name: Configure elasticsearch repo
+ # yum_repository:
+  #  name: elasticsearch
+   # desciption: elasticsearch Repository
+   # baseurl: https://artifacts.elastic.co/packages/6.x/yum
+   # gpgcheck: no
     
 
 - name: Add Base Yum Repository
