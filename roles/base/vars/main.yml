@@ -1,0 +1,6 @@
+web_user: nginx
+web_group: nginx
+web_user_id: 499
+web_group_id: 499
+ansible_processor_cores: 1024
+server_name: 47.107.65.32
