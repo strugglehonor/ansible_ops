@@ -1,0 +1,3 @@
+- name: Restart nfs service
+  service: name=nfs state=restarted
+  
